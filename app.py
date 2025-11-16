@@ -1,18 +1,32 @@
-# Vercel's app.py
-
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, redirect, url_for
 import json
 import os
-import requests # Use requests to call your bot API
+import requests
 
 app = Flask(__name__)
 
-# This is the public URL of your bot running on Railway/Render
-BOT_API_BASE_URL = "https://your-bot-project-name.up.railway.app" # <--- IMPORTANT: Change this!
-BOT_API_PORT = "30151" # The port your bot's Flask app is running on
+# Your bot API
+BOT_API_BASE_URL = "https://your-bot-project-name.up.railway.app"
+BOT_API_PORT = "30151"
 
+# ---------- LOGIN FIRST ----------
 @app.route('/')
-def index():
+def home():
+    return redirect(url_for('login_page'))   # OPEN LOGIN FIRST
+
+@app.route('/login')
+def login_page():
+    return render_template("login.html")     # SHOW LOGIN.HTML
+
+# When user clicks login → go to index page
+@app.route('/do_login', methods=['POST'])
+def do_login():
+    # You can add password check here later
+    return redirect(url_for('index_page'))
+
+# ---------- MAIN PAGE ----------
+@app.route('/index')
+def index_page():
     try:
         with open('emotes.json', 'r') as f:
             emotes = json.load(f)
@@ -20,6 +34,7 @@ def index():
     except Exception as e:
         return f"An error occurred: {e}", 500
 
+# ---------- SEND EMOTE ----------
 @app.route('/send_emote', methods=['POST'])
 def send_emote():
     try:
@@ -31,8 +46,6 @@ def send_emote():
         if not all([team_code, emote_id, uids]):
             return jsonify({'message': 'Error: Missing data'}), 400
 
-        # Build the parameters for the API call to your bot
-        # http://.../join?uid1=...&uid2=...&emote_id=...&tc=...
         params = {
             'emote_id': emote_id,
             'tc': team_code
@@ -40,10 +53,9 @@ def send_emote():
         for i, uid in enumerate(uids):
             params[f'uid{i+1}'] = uid
 
-        # Make the request to the bot running on Railway
         api_url = f"{BOT_API_BASE_URL}:{BOT_API_PORT}/join"
         response = requests.get(api_url, params=params, timeout=30)
-        response.raise_for_status() # Raise an error for bad responses
+        response.raise_for_status()
 
         return jsonify({
             'message': 'Emote request sent successfully to the bot!',
@@ -52,5 +64,10 @@ def send_emote():
 
     except requests.exceptions.RequestException as e:
         return jsonify({'message': f'Error communicating with the bot API: {e}'}), 500
+
     except Exception as e:
-        return jsonify({'message': f'An internal server error occurred: {e}'}), 500
+        return jsonify({'message': f'Internal error: {e}'}), 500
+
+
+if __name__ == "__main__":
+    app.run(debug=True)
