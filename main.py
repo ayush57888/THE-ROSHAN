@@ -285,7 +285,7 @@ async def TcPOnLine(ip, port, key, iv, AutHToKen, reconnect_delay=0.5):
                         OwNer_UiD, CHaT_CoDe, SQuAD_CoDe = await GeTSQDaTa(packet)
                         JoinCHaT = await AutH_Chat(3, OwNer_UiD, CHaT_CoDe, key, iv)
                         await SEndPacKeT(whisper_writer, online_writer, 'ChaT', JoinCHaT)
-                        message = f'[B][C]{get_random_color()}\n- WeLComE To KO FF Emote Bot ! '
+                        message = f'[B][C]{get_random_color()}\n- WeLComE To DECIMAL CHEATS Emote Bot ! '
                         P = await SEndMsG(0, message, OwNer_UiD, OwNer_UiD, key, iv)
                         await SEndPacKeT(whisper_writer, online_writer, 'ChaT', P)
                     except:
@@ -418,7 +418,7 @@ def do_login():
     discord_pw = request.form.get('discord-pw', '').strip()
     telegram_pw = request.form.get('telegram-pw', '').strip()
 
-    if discord_pw == "225" and telegram_pw == "335":
+    if discord_pw == "THEROSHANCODEX07" and telegram_pw == "THEROSHANCODEX_07":
         session['logged_in'] = True
         return jsonify({"status": "success", "redirect": "/index"})
     else:
@@ -500,7 +500,7 @@ async def MaiiiinE():
     global LOOP, key, iv, region, whisper_writer, online_writer, LoGinDaTaUncRypTinG
     LOOP = asyncio.get_running_loop()
 
-    Uid, Pw = '4260656397', 'C4BB2682F8D27B593A5BE43E584432D0F936C8DB588B15FAB66E2B2DAF2C7ABD'
+    Uid, Pw = '4227515098', '0A184A64050986E09144E28F0EF9D4C25C31CF5A96ED5069DD2D795CC2FE84DA'
     open_id, access_token = await GeNeRaTeAccEss(Uid, Pw)
     if not open_id or not access_token: print("Invalid account"); return None
     PyL = await EncRypTMajoRLoGin(open_id, access_token)
