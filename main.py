@@ -418,7 +418,7 @@ def do_login():
     discord_pw = request.form.get('discord-pw', '').strip()
     telegram_pw = request.form.get('telegram-pw', '').strip()
 
-    if discord_pw == "THEROSHANCODEX07" and telegram_pw == "THEROSHANCODEX_07":
+    if discord_pw == "ktyt30k" and telegram_pw == "ktyt30k":
         session['logged_in'] = True
         return jsonify({"status": "success", "redirect": "/index"})
     else:
